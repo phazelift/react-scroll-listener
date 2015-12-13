@@ -1,7 +1,7 @@
 {
   "name": "react-scroll-listener",
-  "version": "0.1.0",
-  "description": "listen for scroll events in React applications",
+  "version": "0.2.0",
+  "description": "listen for and handle scroll events efficiently in React applications",
   "main": "react-scroll-listener.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,12 +11,13 @@
     "url": "https://github.com/phazelift/react-scroll-listener"
   },
   "dependencies" : {
-    "types.js" : "latest"
+    "types.js"	: "latest"
   },
   "keywords": [
     "react",
     "scroll",
-    "listener"
+    "listener",
+    "mixin"
   ],
   "author": "Dennis Raymondo <phazelift@gmail.com> (https://github.com/phazelift/)",
   "license": "GPL-3",
