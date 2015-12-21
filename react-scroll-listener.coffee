@@ -1,6 +1,6 @@
 #
 # react-scroll-listener - listen for and handle scroll events in React applications
-# includes: ScrollListener.Mixin
+# includes: ScrollListener.Mixin and/or ScrollListenerMixin
 #
 # Copyright (c) 2015 Dennis Raymondo van der Sluis
 #
@@ -16,6 +16,8 @@
 #
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+# depends on: React/lib/ViewportMetrics
 #
 
 ViewportMetrics	= require 'react/lib/ViewportMetrics'
@@ -38,12 +40,12 @@ class ScrollListener
 		@isScrolling			= false
 		@scrollTimeoutDelay 	= types.forceNumber settings.delay, DEFAULT_TIMEOUT_DELAY
 		@_scrollTimeout		= undefined
-		@scrollListenerAdded	= false
+		@scrollListenerSet	= false
 
 
 
 	addScrollEventListener: ->
-		return if @scrollListenerAdded
+		return if @scrollListenerSet
 
 		if not @scrollHost.addEventListener
 			if 'undefined' is typeof window
@@ -52,20 +54,17 @@ class ScrollListener
 				@scrollHost= window
 
 		@scrollHost.addEventListener 'scroll', @_onHostScroll
-		return @scrollListenerAdded= true
+		return @scrollListenerSet= true
 
 
 
 	removeScrollEventListener: -> @scrollHost.removeEventListener 'scroll', @_onHostScroll
 
 
-	setScrollHandler: ( id, handler, onScrollEnd ) ->
-		# TODO
-
 	addScrollHandler: ( id, handler, onScrollEnd ) ->
 		id= types.forceString id
 		if not id
-			return console.log 'ScrollListener::addScrollHandler -> could not add handler! id: '+ id
+			return console.log 'ScrollListener::addScrollHandler -> cannot add handler without id!'
 		handler= types.forceFunction handler
 		if onScrollEnd and not @scrollEndHandlers[ id ]
 			@scrollEndHandlers[ id ]= handler
@@ -74,13 +73,20 @@ class ScrollListener
 
 		return @addScrollEventListener()
 
+	addScrollStartHandler: ( id, handler ) -> @addScrollHandler id, handler
+	addScrollEndHandler: ( id, handler ) -> @addScrollHandler id, handler, true
 
 
-	removeScrollHandler: ( id, onScrollEnd ) ->
-		if onScrollEnd
-			delete @scrollEndHandlers[ id ]
-		else
-			delete @scrollStartHandlers[ id ]
+	removeScrollStartHandler: ( id ) ->	delete @scrollStartHandlers[ id ]
+	removeScrollEndHandler: ( id ) -> delete @scrollEndHandlers[ id ]
+
+	removeScrollHandlers: () ->
+		@scrollStartHandlers= {};
+		@scrollEndHandlers= {};
+
+	# TODO: this should make possible overwriting an existing handler
+	# setScrollStartHandler: ( id, handler) ->
+	# setScrollEndHandler: ( id, handler) ->
 
 
 	_onHostScrollEnd: =>
@@ -104,36 +110,32 @@ class ScrollListener
 #
 #	 ScrollListener.Mixin:
 #
-#	the mixin adds the scrollListener instance to the component
-#	can set id's for reuse and optimization
-#
-#	use this.onScrollStart and this.onScrollEnd in your component
-#
 
 _scrollListeners= {}
 getScrollListener= ( id ) -> _scrollListeners[ id ] or _scrollListeners[ id ]= new ScrollListener
 
-Mixin= ( id, startHandlerId, endHandlerId ) ->
 
-	scrollStartId	= types.forceString startHandlerId, Date.now()
-	scrollEndId		= types.forceString endHandlerId, Date.now()+ 1
+ScrollListenerMixin= ( id ) ->
 
 	return Mixin=
 
 		scrollListener	: getScrollListener types.forceString id, 'generic'
+		scrollStartId	: types.forceString Date.now()
+		scrollEndId		: types.forceString Date.now()+ 1
 
 		componentDidMount: ->
-			@scrollListener.addScrollHandler scrollStartId, @onScrollStart
-			@scrollListener.addScrollHandler scrollEndId, @onScrollEnd, true
+			@scrollListener.addScrollStartHandler scrollStartId, @onScrollStart
+			@scrollListener.addScrollEndHandler scrollEndId, @onScrollEnd
 
 		componentWillUnmount: ->
-			@scrollListener.removeScrollHandler scrollStartId
-			@scrollListener.removeScrollHandler scrollEndId, true
+			@scrollListener.removeScrollStartHandler scrollStartId
+			@scrollListener.removeScrollEndHandler scrollEndId
 
 
-Mixin.componentWillMount= -> throw new Error 'You are trying to use ScrollListener.Mixin as an object, but it\'s a Function! Check the mixin for usage details.'
+ScrollListener.componentWillMount= -> throw new Error 'You are trying to use ScrollListenerMixin as an object, but it\'s a Function! Check the mixin for usage details.'
 
 
-ScrollListener.Mixin= Mixin
+ScrollListener.Mixin= ScrollListenerMixin
+ScrollListener.ScrollListenerMixin= ScrollListenerMixin
 
 module.exports= ScrollListener
