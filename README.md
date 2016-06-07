@@ -2,10 +2,8 @@ react-scroll-listener (+ mixin)
 ========
 ### including: ScrollListenerMixin
 
-<br/>
 
 A scroll-event listener class for React apps.
-
 
 ___
 ### usage:
@@ -129,3 +127,13 @@ var ChildComponent = React.createClass({
 });
 ```
 ___
+
+
+##Change log:
+
+>0.4.0
+
+removes ViewportMetrics dependency
+
+---
+

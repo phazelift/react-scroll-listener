@@ -17,11 +17,8 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
-# depends on: React/lib/ViewportMetrics
-#
 
-ViewportMetrics	= require 'react/lib/ViewportMetrics'
-types					= require 'types.js'
+types= require 'types.js'
 
 #
 # ScrollListener
@@ -90,7 +87,7 @@ class ScrollListener
 
 
 	_onHostScrollEnd: =>
-		if @scrollTop is ViewportMetrics.currentScrollTop
+		if @scrollTop is @scrollHost.pageYOffset
 			clearTimeout @_scrollTimeout
 			@isScrolling = false
 			for handler of @scrollEndHandlers
@@ -99,7 +96,7 @@ class ScrollListener
 
 	_onHostScroll: =>
 		 @isScrolling	= true
-		 @scrollTop		= ViewportMetrics.currentScrollTop
+		 @scrollTop		= @scrollHost.pageYOffset
 		 clearTimeout @_scrollTimeout
 		 for handler of @scrollStartHandlers
 			 @scrollStartHandlers[ handler ]()
