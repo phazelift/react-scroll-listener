@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-listener",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "listen for and handle scroll events efficiently in React applications",
   "main": "react-scroll-listener.min.js",
   "scripts": {
