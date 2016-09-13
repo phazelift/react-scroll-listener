@@ -1,12 +1,18 @@
 react-scroll-listener (+ mixin)
 ========
-### including: ScrollListenerMixin
-
 
 A scroll-event listener class for React apps.
 
+<br/>
+
 ___
 ### usage:
+
+<br/>
+
+>`npm install --save scroll-listener-mixin`
+
+<br/>
 
 ```javascript
 var ScrollListener = require('react-scroll-listener');
@@ -15,38 +21,6 @@ var ScrollListener = require('react-scroll-listener');
 var ScrollListenerMixin = ScrollListener.Mixin;
 // with es6
 import { ScrollListenerMixin } from 'react-scroll-listener';
-
-//
-// after creation/initialization the following properties are available in context:
-//
-	this.scrollHost		   == {}
-	this.scrollStartHandlers  == {}
-	this.scrollEndHandlers	== {}
-	this.scrollTop			== 0
-	this.isScrolling		  == false
-	this.scrollTimeoutDelay   == 300 // ms
-	this.scrollListenerSet	== false
-
-// and the following methods:
-
-	this.addScrollEventListener();
-	this.removeScrollEventListener();
-	this.addScrollHandler( <string/number> id, <function> handler, <boolean> onScrollEnd );
-	this.addScrollStartHandler( <string/number> id, <function> handler )
-	this.addScrollEndHandler( <string/number> id, <function> handler )
-	this.removeScrollStartHandler( <string/number> id )
-	this.removeScrollEndHandler( <string/number> id )
-	this.removeScrollHandlers()
-	this.getScrollListener( <string/number> id )
-
-// internals, don't use:
-	this._scrollListeners
-	this._scrollTimeout
-	this._onHostScroll
-	this._onHostScrollEnd
-
-
-// -----------------------------------------------------------------------
 
 
 // you can extend a class:
@@ -83,10 +57,11 @@ window.onLoad = function(){
 componentDidMount: function(){
 	scrollListener.addScrollHandler('some-id', myScrollStartHandler, myScrollEndHandler );
 }
+```
 
+###as mixin:
 
-
-// or use as mixin:
+```javascript
 var MyComponent = React.createClass({
 
 	// call as a function, give an id for efficient reuse in other components
@@ -125,6 +100,39 @@ var ChildComponent = React.createClass({
 		return null;
 	}
 });
+```
+
+###methods and props
+
+```javascript
+//
+// after creation/initialization the following properties are available in context
+//
+this.scrollHost				= {}
+this.scrollStartHandlers	= {}
+this.scrollEndHandlers		= {}
+this.scrollTop				= 0
+this.isScrolling			= false
+this.scrollTimeoutDelay		= 300 // ms
+this.scrollListenerSet		= false
+
+// and the following methods:
+
+this.addScrollEventListener();
+this.removeScrollEventListener();
+this.addScrollHandler( <string/number> id, <function> handler, <boolean> onScrollEnd );
+this.addScrollStartHandler( <string/number> id, <function> handler )
+this.addScrollEndHandler( <string/number> id, <function> handler )
+this.removeScrollStartHandler( <string/number> id )
+this.removeScrollEndHandler( <string/number> id )
+this.removeScrollHandlers()
+this.getScrollListener( <string/number> id )
+
+// internals, don't use
+this._scrollListeners
+this._scrollTimeout
+this._onHostScroll
+this._onHostScrollEnd
 ```
 ___
 
