@@ -131,9 +131,20 @@ ___
 
 ##Change log:
 
+>0.4.2
+
+changed license to MIT
+
+---
+
 >0.4.0
 
 removes ViewportMetrics dependency
 
 ---
+
+
+##License
+
+MIT
 
