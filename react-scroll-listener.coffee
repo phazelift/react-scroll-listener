@@ -121,11 +121,12 @@ getScrollListener= ( id ) -> _scrollListeners[ id ] or _scrollListeners[ id ]= n
 
 ScrollListenerMixin= ( id ) ->
 
+	scrollStartId	= types.forceString Date.now()
+	scrollEndId		= types.forceString Date.now()+ 1
+
 	return Mixin=
 
 		scrollListener	: getScrollListener types.forceString id, 'generic'
-		scrollStartId	: types.forceString Date.now()
-		scrollEndId		: types.forceString Date.now()+ 1
 
 		componentDidMount: ->
 			@scrollListener.addScrollStartHandler scrollStartId, @onScrollStart
