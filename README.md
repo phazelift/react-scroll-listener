@@ -36,7 +36,7 @@ class myClass extends ScrollListener {
 }
 
 // or just create a default instance:
-var ScrollListener = new ScrollListener();
+var scrollListener = new ScrollListener();
 
 
 // create handlers:
