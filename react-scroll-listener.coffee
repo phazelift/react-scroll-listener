@@ -25,7 +25,8 @@
 # SOFTWARE.
 #
 
-types= require 'types.js'
+types			= require 'types.js'
+uniqueUUID	= require 'node-uuid'
 
 #
 # ScrollListener
@@ -93,21 +94,21 @@ class ScrollListener
 	# setScrollEndHandler: ( id, handler) ->
 
 
-	_onHostScrollEnd: =>
+	_onHostScrollEnd: ( event ) =>
 		if @scrollTop is @scrollHost.pageYOffset
 			clearTimeout @_scrollTimeout
 			@isScrolling = false
 			for handler of @scrollEndHandlers
-				@scrollEndHandlers[ handler ]()
+				@scrollEndHandlers[ handler ]( event )
 
 
-	_onHostScroll: =>
+	_onHostScroll: ( event ) =>
 		 @isScrolling	= true
 		 @scrollTop		= @scrollHost.pageYOffset
 		 clearTimeout @_scrollTimeout
 		 for handler of @scrollStartHandlers
-			 @scrollStartHandlers[ handler ]()
-		 @_scrollTimeout= setTimeout @_onHostScrollEnd, @scrollTimeoutDelay
+			 @scrollStartHandlers[ handler ]( event )
+		 @_scrollTimeout= setTimeout @_onHostScrollEnd.bind(@, event), @scrollTimeoutDelay
 
 
 
@@ -121,8 +122,8 @@ getScrollListener= ( id ) -> _scrollListeners[ id ] or _scrollListeners[ id ]= n
 
 ScrollListenerMixin= ( id ) ->
 
-	scrollStartId	= types.forceString Date.now()
-	scrollEndId		= types.forceString Date.now()+ 1
+	scrollStartId	= uniqueUUID.v1()
+	scrollEndId		= uniqueUUID.v1()
 
 	return Mixin=
 

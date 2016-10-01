@@ -40,11 +40,11 @@ var scrollListener = new ScrollListener();
 
 
 // create handlers:
-var myScrollStartHandler = function(){
+var myScrollStartHandler = function( event ){
 	console.log( 'logs on every scroll move' );
 };
 
-var myScrollEndHandler = function(){
+var myScrollEndHandler = function( event ){
 	console.log( 'logs only when scrolling has stopped (default 300ms delay)' );
 };
 
@@ -68,12 +68,12 @@ var MyComponent = React.createClass({
 	mixins: [ ScrollListenerMixin('my-component') ],
 
 	// mixin adds onScrollStart and onScrollEnd to the context, so you can use them like this:
-	onScrollStart: function(){
+	onScrollStart: function( event ){
 		// you could re-render on each onscrollstart event (inhibit in child components shouldComponentUpdate with (! this.onScrolling) for performance)
 		this.forceUpdate();
 	},
 
-	onScrollEnd: function(){
+	onScrollEnd: function( event ){
 		console.log('logs when no scroll-events occurred in the last 300ms(default)');
 	},
 
@@ -138,6 +138,13 @@ ___
 
 
 ##Change log:
+
+>0.5.0
+
+- made available the actual scroll event as argument on onScrollStart and onScrollEnd
+- now using node-uuid for generating unique id's
+
+---
 
 >0.4.2
 
