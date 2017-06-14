@@ -25,8 +25,8 @@
 # SOFTWARE.
 #
 
-types			= require 'types.js'
-uniqueUUID	= require 'node-uuid'
+types		= require 'types.js'
+uuid		= require 'uuid'
 
 #
 # ScrollListener
@@ -122,8 +122,8 @@ getScrollListener= ( id ) -> _scrollListeners[ id ] or _scrollListeners[ id ]= n
 
 ScrollListenerMixin= ( id ) ->
 
-	scrollStartId	= uniqueUUID.v1()
-	scrollEndId		= uniqueUUID.v1()
+	scrollStartId	= uuid.v4()
+	scrollEndId		= uuid.v4()
 
 	return Mixin=
 

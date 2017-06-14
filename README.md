@@ -10,7 +10,7 @@ ___
 
 <br/>
 
->`npm install --save scroll-listener-mixin`
+>`npm install --save react-scroll-listener`
 
 <br/>
 
@@ -139,6 +139,14 @@ ___
 
 ##Change log:
 
+>0.6.0
+
+- moved from node-uuid v1 to uuid v4
+- fixed typo in readme
+
+---
+
+
 >0.5.0
 
 - made available the actual scroll event as argument on onScrollStart and onScrollEnd
@@ -162,4 +170,3 @@ removes ViewportMetrics dependency
 ##License
 
 MIT
-
