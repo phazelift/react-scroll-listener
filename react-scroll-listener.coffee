@@ -103,12 +103,11 @@ class ScrollListener
 
 
 	_onHostScroll: ( event ) =>
-		 @isScrolling	= true
-		 @scrollTop		= @scrollHost.pageYOffset
-		 clearTimeout @_scrollTimeout
-		 for handler of @scrollStartHandlers
-			 @scrollStartHandlers[ handler ]( event )
-		 @_scrollTimeout= setTimeout @_onHostScrollEnd.bind(@, event), @scrollTimeoutDelay
+		@isScrolling	= true
+		@scrollTop		= @scrollHost.pageYOffset
+		clearTimeout @_scrollTimeout
+		for handler of @scrollStartHandlers then @scrollStartHandlers[ handler ]( event )
+		@_scrollTimeout= setTimeout @_onHostScrollEnd.bind(@, event), @scrollTimeoutDelay
 
 
 
